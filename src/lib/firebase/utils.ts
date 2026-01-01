@@ -16,7 +16,7 @@ import {
   addDoc,
   getDoc
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import {
   usersCollection,
   postsCollection,
@@ -177,8 +177,21 @@ export async function uploadImages(
       const storageRef = ref(storage, `images/${userId}/${id}`);
 
       try {
-        await uploadBytes(storageRef, file);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        await new Promise<void>((resolve, reject) => {
+          uploadTask.on(
+            'state_changed',
+            // progress handler — noop for now
+            () => undefined,
+            // error
+            (error) => reject(error),
+            // complete
+            () => resolve()
+          );
+        });
       } catch (err) {
+        console.error('resumable upload error', err);
         throw new Error('Image upload failed');
       }
 
