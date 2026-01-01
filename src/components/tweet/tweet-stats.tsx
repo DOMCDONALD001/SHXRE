@@ -85,13 +85,13 @@ export function TweetStats({
         type === 'bookmark'
           ? (): JSX.Element => (
               <span className='flex gap-2'>
-                Tweet added to your bookmarks
+                Post added to your bookmarks
                 <Link href='/bookmarks'>
                   <span className='custom-underline font-bold'>View</span>
                 </Link>
               </span>
             )
-          : 'Tweet removed from your bookmarks'
+          : 'Post removed from your bookmarks'
       );
     };
 
