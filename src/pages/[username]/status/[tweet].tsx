@@ -85,7 +85,7 @@ export default function TweetId(): JSX.Element {
     : null;
 
   const pageDescription = text ? (text.length > 200 ? `${text.slice(0, 197)}...` : text) : 'View this post on SHXRE';
-  const pageImage = images && images.length > 0 ? images[0] : null;
+  const pageImage = images && images.length > 0 ? images[0].src ?? null : null;
 
   return (
     <MainContainer className='!pb-[1280px]'>
