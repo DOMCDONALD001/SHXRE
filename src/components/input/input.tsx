@@ -231,7 +231,7 @@ export function Input({
     });
 
     if (!imagesData) {
-      toast.error('Please choose a GIF or photo up to 4');
+      toast.error('Please choose either a single video (up to 200MB) or up to 4 GIFs/photos');
       return;
     }
 

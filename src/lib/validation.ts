@@ -48,8 +48,27 @@ export function isValidImage(name: string, bytes: number): boolean {
   return isValidImageExtension(name) && bytes < 20 * Math.pow(1024, 2);
 }
 
+const VIDEO_EXTENSIONS = ['mp4', 'mov', 'avi', 'mkv', 'webm'] as const;
+
+type VideoExtensions = (typeof VIDEO_EXTENSIONS)[number];
+
+function isValidVideoExtension(extension: string): extension is VideoExtensions {
+  return VIDEO_EXTENSIONS.includes(
+    extension.split('.').pop()?.toLowerCase() as VideoExtensions
+  );
+}
+
 export function isValidMedia(name: string, size: number): boolean {
-  return isValidMediaExtension(name) && size < 50 * Math.pow(1024, 2);
+  const ext = name.split('.').pop()?.toLowerCase() ?? '';
+
+  if (isValidImageExtension(name)) return isValidImage(name, size);
+
+  if (isValidVideoExtension(ext)) {
+    // Allow larger videos up to 200 MB
+    return size < 200 * Math.pow(1024, 2);
+  }
+
+  return false;
 }
 
 export function isValidUsername(
@@ -82,18 +101,34 @@ export function getImagesData(
   { currentFiles, allowUploadingVideos }: ImagesDataOptions = {}
 ): ImagesData | null {
   if (!files || !files.length) return null;
-
   const singleEditingMode = currentFiles === undefined;
 
-  const rawImages =
-    singleEditingMode ||
-    !(currentFiles === 4 || files.length > 4 - currentFiles)
-      ? Array.from(files).filter(({ name, size }) =>
-          allowUploadingVideos
-            ? isValidMedia(name, size)
-            : isValidImage(name, size)
-        )
-      : null;
+  const incoming = Array.from(files);
+
+  // If videos are allowed, enforce: either a single video (no other files),
+  // or up to 4 images/GIFs total (including currentFiles).
+  if (allowUploadingVideos) {
+    const videos = incoming.filter((f) => isValidVideoExtension(f.name));
+    const images = incoming.filter((f) => isValidImageExtension(f.name));
+
+    if (videos.length > 0) {
+      // only allow one video and no existing files
+      if (videos.length > 1) return null;
+      if ((currentFiles ?? 0) > 0) return null;
+      const v = videos[0];
+      if (!isValidMedia(v.name, v.size)) return null;
+      var rawImages = [v];
+    } else {
+      // images path: ensure total doesn't exceed 4
+      if ((currentFiles ?? 0) + images.length > 4) return null;
+      rawImages = images.filter((f) => isValidImage(f.name, f.size));
+    }
+  } else {
+    // videos not allowed, only images up to 4
+    const images = incoming.filter((f) => isValidImageExtension(f.name));
+    if ((currentFiles ?? 0) + images.length > 4) return null;
+    var rawImages = images.filter((f) => isValidImage(f.name, f.size));
+  }
 
   if (!rawImages || !rawImages.length) return null;
 
