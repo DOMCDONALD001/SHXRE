@@ -200,7 +200,16 @@ export function AuthContextProvider({
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
     } catch (error) {
+      console.error('signInWithGoogle error:', error);
+      // surface to state for UI and debugging
       setError(error as Error);
+      try {
+        // show a toast so users see the error when popup fails
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        toast.error((error as any)?.message ?? 'Login failed');
+      } catch (e) {
+        // ignore toast failures
+      }
     }
   };
 
