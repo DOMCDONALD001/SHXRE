@@ -64,8 +64,8 @@ export function isValidMedia(name: string, size: number): boolean {
   if (isValidImageExtension(name)) return isValidImage(name, size);
 
   if (isValidVideoExtension(ext)) {
-    // Allow larger videos up to 200 MB
-    return size < 200 * Math.pow(1024, 2);
+    // Allow larger videos up to 100 GB per post
+    return size < 100 * Math.pow(1024, 3);
   }
 
   return false;
