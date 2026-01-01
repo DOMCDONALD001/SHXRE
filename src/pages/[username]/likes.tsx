@@ -37,7 +37,7 @@ export default function UserLikes(): JSX.Element {
         const snaps = await getDocs(
           query(postsCollection, where('userLikes', 'array-contains', id))
         );
-        const docs = snaps
+        const docs = snaps.docs
           .map((d) => d.data({ serverTimestamps: 'estimate' }))
           .sort((a, b) => {
             const ta = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;

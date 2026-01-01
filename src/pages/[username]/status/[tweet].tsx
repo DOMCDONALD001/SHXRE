@@ -44,7 +44,7 @@ export default function TweetId(): JSX.Element {
         // Avoid composite-index by omitting orderBy; sort client-side
         const q = query(postsCollection, where('parent.id', '==', tweet));
         const snaps = await getDocs(q);
-        const docs = snaps
+        const docs = snaps.docs
           .map((d) => d.data({ serverTimestamps: 'estimate' }))
           .sort((a, b) => {
             const ta = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;

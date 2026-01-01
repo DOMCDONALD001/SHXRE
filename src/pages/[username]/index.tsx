@@ -51,7 +51,7 @@ export default function UserTweets(): JSX.Element {
         const snaps = await getDocs(
           query(postsCollection, where('userRetweets', 'array-contains', id))
         );
-        const docs = snaps
+        const docs = snaps.docs
           .map((d) => d.data({ serverTimestamps: 'estimate' }))
           .filter((doc) => doc.createdBy !== id)
           .sort((a, b) => {
