@@ -11,17 +11,27 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse & { socket: { server: any } }
 ): Promise<void> {
-  if (!req.cookies.token) res.end();
+  // Avoid initializing socket server multiple times
+  if (res?.socket?.server?.io) {
+    res.status(200).send('Socket already initialized');
+    return;
+  }
 
-  const user = await firebaseAdmin
-    .auth()
-    .verifyIdToken(req.cookies.token as string);
+  // Require an auth token; respond 401 if missing/invalid
+  const token = req.cookies?.token as string | undefined;
+  if (!token) {
+    res.status(401).send('Unauthorized');
+    return;
+  }
 
-  if (!req.cookies.token)
-    if (res?.socket.server.io) {
-      res.end();
-      return;
-    }
+  let user: any = null;
+  try {
+    user = await firebaseAdmin.auth().verifyIdToken(token);
+  } catch (err) {
+    console.error('Failed to verify token for socket connection:', err);
+    res.status(401).send('Invalid token');
+    return;
+  }
 
   const io = new IOServer(res.socket.server, {
     cors: {
