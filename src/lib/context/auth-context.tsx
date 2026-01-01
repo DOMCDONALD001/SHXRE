@@ -72,13 +72,8 @@ export function AuthContextProvider({
       try {
         userSnapshot = await getDoc(doc(usersCollection, uid));
       } catch (err) {
-        console.warn('Initial user getDoc failed, attempting cache fallback:', err);
-        try {
-          userSnapshot = await getDoc(doc(usersCollection, uid), { source: 'cache' });
-        } catch (cacheErr) {
-          console.warn('Cache fallback failed for user snapshot:', cacheErr);
-          userSnapshot = null;
-        }
+        console.warn('Initial user getDoc failed:', err);
+        userSnapshot = null;
       }
 
       if (!userSnapshot || !userSnapshot.exists()) {
@@ -142,14 +137,8 @@ export function AuthContextProvider({
               const createdSnap = await getDoc(doc(usersCollection, uid));
               setUser(createdSnap.data() as User);
             } catch (err) {
-              console.warn('Failed to read newly created user, attempting cache:', err);
-              try {
-                const cached = await getDoc(doc(usersCollection, uid), { source: 'cache' });
-                setUser(cached?.data() as User);
-              } catch (cacheErr) {
-                console.warn('Failed cache read of newly created user:', cacheErr);
-                setUser(userData as User);
-              }
+              console.warn('Failed to read newly created user:', err);
+              setUser(userData as User);
             }
           } catch (error) {
             setError(error as Error);
