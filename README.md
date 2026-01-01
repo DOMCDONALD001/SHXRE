@@ -1,6 +1,6 @@
 <br />
 
-![](/.github/assets/presentation.png)
+
 
 <h1 align="center">SHXRE</h1>
 
