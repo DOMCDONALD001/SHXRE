@@ -1,0 +1,32 @@
+   ▲ Next.js 15.2.6
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.0.229:3000
+   - Environments: .env.development
+
+ ✓ Starting...
+ ✓ Ready in 2.7s
+ ○ Compiling / ...
+Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+ ✓ Compiled / in 11.9s (2637 modules)
+ GET /home 200 in 13593ms
+ ○ Compiling /api/socket ...
+ ✓ Compiled /api/socket in 1103ms (1046 modules)
+ GET /api/socket?EIO=4&transport=polling&t=nmmjsz43 200 in 1697ms
+ ○ Compiling /messages ...
+ ✓ Compiled /messages in 1446ms (2663 modules)
+ ○ Compiling /500 ...
+ ✓ Compiled /500 in 1500ms (2667 modules)
+ GET /home 200 in 807ms
+ ✓ Compiled in 2.3s (2667 modules)
+ GET / 200 in 321ms
+ ○ Compiling /messages/[conversation] ...
+ ✓ Compiled /messages/[conversation] in 1717ms (2677 modules)
+ ○ Compiling /bookmarks ...
+ ✓ Compiled /bookmarks in 2.6s (2661 modules)
+ ○ Compiling /explore ...
+ ✓ Compiled /explore in 3s (2669 modules)
+ ✓ Compiled in 4.1s (2633 modules)
+ ○ Compiling /bookmarks ...
+ ✓ Compiled /bookmarks in 710ms (2635 modules)
