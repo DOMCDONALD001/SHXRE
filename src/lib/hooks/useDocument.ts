@@ -52,7 +52,7 @@ export function useDocument<T>(
         // If offline or network error, try cache fallback
         if (!userData.exists()) {
           try {
-            userData = await getDoc(userDocRef, { source: 'cache' });
+            userData = await getDoc(userDocRef);
           } catch (cacheErr) {
             console.warn('Failed to read user from cache:', cacheErr);
           }

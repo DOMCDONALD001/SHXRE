@@ -49,10 +49,10 @@ export function useArrayDocument<T>(
             let userSnap = await getDoc(userDocRef);
             if (!userSnap.exists()) {
               try {
-                userSnap = await getDoc(userDocRef, { source: 'cache' });
-              } catch (cacheErr) {
-                console.warn('Failed to read user from cache:', cacheErr);
-              }
+                  userSnap = await getDoc(userDocRef);
+                } catch (cacheErr) {
+                  console.warn('Failed to read user from cache:', cacheErr);
+                }
             }
             return { ...currentData, user: userSnap?.data?.() ?? null };
           } catch (err) {
@@ -74,7 +74,7 @@ export function useArrayDocument<T>(
               let snap = await getDoc(docRef);
               if (!snap.exists()) {
                 try {
-                  snap = await getDoc(docRef, { source: 'cache' });
+                  snap = await getDoc(docRef);
                 } catch (cacheErr) {
                   console.warn('Failed to read doc from cache:', cacheErr);
                 }
@@ -94,9 +94,9 @@ export function useArrayDocument<T>(
                 }
               }
               return snap;
-            } catch (err) {
+              } catch (err) {
               try {
-                return await getDoc(docRef, { source: 'cache' });
+                return await getDoc(docRef);
               } catch (cacheErr) {
                 console.warn('Failed to fetch doc (network+cache):', err, cacheErr);
                 return null;

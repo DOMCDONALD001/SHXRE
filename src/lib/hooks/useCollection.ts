@@ -70,7 +70,7 @@ export function useCollection<T>(
             let userSnap = await getDoc(userDocRef);
             if (!userSnap.exists()) {
               try {
-                userSnap = await getDoc(userDocRef, { source: 'cache' });
+                userSnap = await getDoc(userDocRef);
               } catch (cacheErr) {
                 console.warn('Failed to read user from cache:', cacheErr);
               }
