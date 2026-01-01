@@ -35,7 +35,7 @@ export default function UserWithReplies(): JSX.Element {
       where('createdBy', '==', id),
       orderBy('createdAt', 'desc')
     ),
-    { includeUser: true, allowNull: true }
+    { includeUser: true, allowNull: true, disabled: !id }
   );
 
   return (

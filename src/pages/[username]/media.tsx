@@ -25,7 +25,7 @@ export default function UserMedia(): JSX.Element {
       where('createdBy', '==', id),
       where('images', '!=', null)
     ),
-    { includeUser: true, allowNull: true }
+    { includeUser: true, allowNull: true, disabled: !id }
   );
 
   const sortedTweets = mergeData(true, data);
