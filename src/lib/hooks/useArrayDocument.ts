@@ -83,8 +83,7 @@ export function useArrayDocument<T>(
                 try {
                   // collection.id should be 'tweets' for legacy collection refs
                   // only attempt fallback when appropriate
-                  // @ts-expect-error CollectionReference has .id at runtime
-                  if ((collection as any).id === 'tweets') {
+                   if ((collection as any).id === 'tweets') {
                     const fallbackRef = doc(postsCollection, id);
                     const fallbackSnap = await getDoc(fallbackRef);
                     if (fallbackSnap.exists()) return fallbackSnap;
