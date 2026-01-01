@@ -84,6 +84,9 @@ export default function TweetId(): JSX.Element {
       }" / SHXRE`
     : null;
 
+  const pageDescription = text ? (text.length > 200 ? `${text.slice(0, 197)}...` : text) : 'View this post on SHXRE';
+  const pageImage = images && images.length > 0 ? images[0] : null;
+
   return (
     <MainContainer className='!pb-[1280px]'>
       <MainHeader
@@ -101,7 +104,9 @@ export default function TweetId(): JSX.Element {
           </>
         ) : (
           <>
-            {pageTitle && <SEO title={pageTitle} />}
+            {pageTitle && (
+              <SEO title={pageTitle} description={pageDescription} image={pageImage} />
+            )}
             {parentId && (
               <ViewParentTweet
                 parentId={parentId}
