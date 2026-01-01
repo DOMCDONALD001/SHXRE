@@ -78,7 +78,7 @@ export function useDocument<T>(
       if (!data && docRef.parent && docRef.parent.id === 'tweets') {
         try {
           const postSnap = await getDoc(doc(postsCollection, docRef.id));
-          if (postSnap.exists()) data = postSnap.data({ serverTimestamps: 'estimate' });
+          if (postSnap.exists()) data = postSnap.data({ serverTimestamps: 'estimate' }) as unknown as T;
         } catch (err) {
           console.warn('Fallback read from posts collection failed:', err);
         }
