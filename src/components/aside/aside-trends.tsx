@@ -68,9 +68,13 @@ export function AsideTrends({ inTrendsPage }: AsideTrendsProps): JSX.Element {
           {!inTrendsPage && (
             <h2 className='text-xl font-extrabold'>Trends for you</h2>
           )}
-          {data.slice(0, 5).map(({ text, counter, user: { name } }) => (
+          {data.slice(0, 5).map(({ text, counter, user: { name }, parent }) => (
             <Link
-              href={''}
+              href={
+                parent
+                  ? `/${parent.username}/status/${parent.id}`
+                  : `/search?q=${encodeURIComponent(text ?? '')}`
+              }
               key={text}
               className='hover-animation accent-tab hover-card relative
                           flex flex-col gap-0.5 px-4'
@@ -102,9 +106,7 @@ export function AsideTrends({ inTrendsPage }: AsideTrendsProps): JSX.Element {
                 />
               </p>
               <p className='text-sm text-light-secondary dark:text-dark-secondary'>
-                {`${formatNumber(counter + 1)} Tweet${
-                  counter === 0 ? '' : 's'
-                }`}
+                {`${formatNumber(counter + 1)} Post${counter === 0 ? '' : 's'}`}
               </p>
             </Link>
           ))}
