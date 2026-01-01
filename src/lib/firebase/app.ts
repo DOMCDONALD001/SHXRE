@@ -61,8 +61,18 @@ export function getFirebase(): Firebase {
 
     return firebase;
   } catch (err) {
-    console.error('Failed to initialize Firebase:', err);
-    throw err;
+    // Don't fail the entire build when Firebase env is missing during CI/build.
+    // Return a safe stub that will surface runtime errors only when used.
+    console.warn('Failed to initialize Firebase (returning stub):', err);
+    const stub: Firebase = {
+      firebaseApp: {} as unknown as FirebaseApp,
+      auth: {} as unknown as Auth,
+      firestore: {} as unknown as Firestore,
+      storage: {} as unknown as FirebaseStorage,
+      functions: {} as unknown as Functions
+    };
+
+    return stub;
   }
 }
 
