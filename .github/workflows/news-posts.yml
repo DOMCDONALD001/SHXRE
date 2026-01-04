@@ -1,0 +1,29 @@
+name: Scheduled News Posts
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  post-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install
+        run: npm ci
+
+      - name: Run news poster
+        env:
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+          NEWS_POST_SECRET: ${{ secrets.NEWS_POST_SECRET }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          SOURCES: ${{ secrets.NEWS_SOURCES }}
+        run: node ./scripts/news-posts.js
