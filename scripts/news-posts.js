@@ -4,7 +4,7 @@
 async function run() {
   const NEWSAPI_KEY = process.env.NEWSAPI_KEY;
   const NEWS_POST_SECRET = process.env.NEWS_POST_SECRET;
-  const SITE_URL = process.env.SITE_URL || 'http://localhost:3000';
+  const SITE_URL = process.env.SITE_URL || 'https://shxre.net';
   const SOURCES = process.env.SOURCES || ''; // comma-separated list of sources (eg: bbc-news,cnn)
 
   if (!NEWSAPI_KEY || !NEWS_POST_SECRET) {
@@ -48,7 +48,13 @@ async function run() {
   });
 
   if (!apiRes.ok) {
-    console.error('POST to site failed', apiRes.status, await apiRes.text());
+    let respText;
+    try {
+      respText = await apiRes.text();
+    } catch (e) {
+      respText = `<unable to read response: ${e}>`;
+    }
+    console.error('POST to site failed', { status: apiRes.status, body: respText });
     process.exit(1);
   }
 

@@ -24,6 +24,6 @@ jobs:
         env:
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
           NEWS_POST_SECRET: ${{ secrets.NEWS_POST_SECRET }}
-          SITE_URL: ${{ secrets.SITE_URL }}
+          SITE_URL: ${{ secrets.SITE_URL || 'https://shxre.net' }}
           SOURCES: ${{ secrets.NEWS_SOURCES }}
         run: node ./scripts/news-posts.js
