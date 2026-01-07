@@ -9,7 +9,7 @@
 </p>
 
 ## Features
-
+./
 - Authentication with Firebase Authentication
 - Strongly typed React components with TypeScript
 -- Users can add posts, like, repost, and reply
